@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ankieta – Szkolenie AI w MŚP</title>
+<style>
+  :root {
+    --navy: #13845f;
+    --navy-d: #0e6449;
+    --teal: #2c2d2d;
+    --teal-d: #1a1a1a;
+    --body: #333;
+    --muted: #6B6B6B;
+    --line: #E5E7EB;
+    --bg: #F8FAFC;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--body);
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px 16px 48px;
+  }
+  .header {
+    background: var(--navy);
+    color: white;
+    padding: 24px 24px 22px;
+    border-radius: 12px 12px 0 0;
+  }
+  .tag {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--teal);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    line-height: 1.25;
+  }
+  .sub {
+    font-size: 14px;
+    opacity: 0.9;
+    margin: 0;
+  }
+  .card {
+    background: white;
+    border-radius: 0 0 12px 12px;
+    padding: 8px 24px 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .intro {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 16px 0 8px;
+  }
+  .q {
+    margin: 22px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .q:first-of-type { border-top: 0; padding-top: 6px; }
+  .q-label {
+    display: block;
+    color: var(--teal);
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  .q-num {
+    display: inline-block;
+    background: var(--navy);
+    color: white;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 22px;
+    font-size: 12px;
+    margin-right: 8px;
+    font-weight: 700;
+  }
+  .opts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .opt {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 140px;
+  }
+  .opt input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .opt label {
+    display: block;
+    padding: 10px 14px;
+    background: #ededed;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    color: var(--body);
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .opt label:hover {
+    background: #dedede;
+  }
+  .opt input:checked + label {
+    background: var(--teal);
+    color: white;
+    border-color: var(--teal-d);
+    font-weight: 600;
+  }
+  .checks {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .check {
+    display: flex;
+    align-items: center;
+    padding: 10px 14px;
+    background: #ededed;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.15s;
+  }
+  .check:hover { background: #dedede; }
+  .check input {
+    margin-right: 12px;
+    width: 18px; height: 18px;
+    accent-color: var(--teal-d);
+  }
+  .other-in {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .other-in:focus {
+    outline: none;
+    border-color: var(--teal);
+  }
+  .actions {
+    margin-top: 28px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  button {
+    background: var(--navy);
+    color: white;
+    border: 0;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: inherit;
+  }
+  button:hover { background: var(--navy-d); }
+  .foot {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 24px;
+  }
+  #thanks {
+    display: none;
+    text-align: center;
+    padding: 40px 24px;
+  }
+  #thanks h2 {
+    color: var(--navy);
+    margin: 12px 0 8px;
+  }
+  #thanks p {
+    color: var(--muted);
+  }
+  .check-icon {
+    width: 60px; height: 60px;
+    background: var(--teal);
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 6px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>Zarządzanie firmą wspierane przez AI</h1>
+    <p class="sub">Krótka ankieta przed szkoleniem.</p>
+  </div>
+
+  <div class="card" id="form-card">
+    <form id="survey"
+          action="https://formsubmit.co/karolinalyko16@gmail.com"
+          method="POST">
+      <input type="hidden" name="_subject" value="Ankieta – Szkolenie AI">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="#thanks">
+
+      <div class="q">
+        <label class="q-label"><span class="q-num">1</span>Z jakiego silnika LLM korzystasz najczęściej?</label>
+        <div class="opts">
+          <div class="opt"><input type="radio" id="q1a" name="q1_llm" value="Claude" required><label for="q1a">Claude</label></div>
+          <div class="opt"><input type="radio" id="q1b" name="q1_llm" value="ChatGPT"><label for="q1b">ChatGPT</label></div>
+          <div class="opt"><input type="radio" id="q1c" name="q1_llm" value="Gemini"><label for="q1c">Gemini</label></div>
+          <div class="opt"><input type="radio" id="q1d" name="q1_llm" value="Copilot"><label for="q1d">Copilot</label></div>
+          <div class="opt"><input type="radio" id="q1e" name="q1_llm" value="Perplexity"><label for="q1e">Perplexity</label></div>
+          <div class="opt"><input type="radio" id="q1f" name="q1_llm" value="Inny"><label for="q1f">Inny</label></div>
+          <div class="opt"><input type="radio" id="q1g" name="q1_llm" value="Żaden"><label for="q1g">Żaden</label></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label"><span class="q-num">2</span>Jak często korzystasz z narzędzi AI?</label>
+        <div class="opts">
+          <div class="opt"><input type="radio" id="q2a" name="q2_czestotliwosc" value="Codziennie" required><label for="q2a">Codziennie</label></div>
+          <div class="opt"><input type="radio" id="q2b" name="q2_czestotliwosc" value="Kilka razy w tygodniu"><label for="q2b">Kilka razy w tyg.</label></div>
+          <div class="opt"><input type="radio" id="q2c" name="q2_czestotliwosc" value="Raz w tygodniu"><label for="q2c">Raz w tygodniu</label></div>
+          <div class="opt"><input type="radio" id="q2d" name="q2_czestotliwosc" value="Rzadziej"><label for="q2d">Rzadziej</label></div>
+          <div class="opt"><input type="radio" id="q2e" name="q2_czestotliwosc" value="Nigdy"><label for="q2e">Nigdy</label></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label"><span class="q-num">3</span>Czy używasz AI w pracy?</label>
+        <div class="opts">
+          <div class="opt"><input type="radio" id="q3a" name="q3_praca" value="Tak, regularnie" required><label for="q3a">Tak, regularnie</label></div>
+          <div class="opt"><input type="radio" id="q3b" name="q3_praca" value="Tak, sporadycznie"><label for="q3b">Tak, sporadycznie</label></div>
+          <div class="opt"><input type="radio" id="q3c" name="q3_praca" value="Nie, ale planuję"><label for="q3c">Nie, ale planuję</label></div>
+          <div class="opt"><input type="radio" id="q3d" name="q3_praca" value="Nie"><label for="q3d">Nie</label></div>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="q-label"><span class="q-num">4</span>W czym AI najbardziej Ci pomaga? <span style="color:var(--muted); font-weight:400; font-size:13px;">(możesz zaznaczyć kilka)</span></label>
+        <div class="checks">
+          <label class="check"><input type="checkbox" name="q4_pomaga" value="Pisanie tekstów">Pisanie tekstów (maile, posty, dokumenty)</label>
+          <label class="check"><input type="checkbox" name="q4_pomaga" value="Analiza danych">Analiza danych (Excel, raporty)</label>
+          <label class="check"><input type="checkbox" name="q4_pomaga" value="Kodowanie">Kodowanie / automatyzacja</label>
+          <label class="check"><input type="checkbox" name="q4_pomaga" value="Burza mózgów">Burza mózgów i pomysły</label>
+          <label class="check"><input type="checkbox" name="q4_pomaga" value="Research">Research i szukanie informacji</label>
+          <label class="check"><input type="checkbox" name="q4_pomaga" value="Tłumaczenia">Tłumaczenia i redakcja</label>
+          <label class="check"><input type="checkbox" name="q4_pomaga" value="Podsumowania">Podsumowania długich materiałów</label>
+          <label class="check"><input type="checkbox" name="q4_pomaga" value="Grafika">Grafika i obrazy</label>
+        </div>
+        <input class="other-in" type="text" name="q4_inne" placeholder="Inne – opisz krótko (opcjonalnie)">
+      </div>
+
+      <div class="actions">
+        <button type="submit">Wyślij odpowiedzi</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="thanks" class="card" style="border-radius:12px; margin-top:24px;">
+    <div class="check-icon">✓</div>
+    <h2>Dziękujemy!</h2>
+    <p>Odpowiedzi zostały wysłane. Do zobaczenia na szkoleniu.</p>
+  </div>
+
+  <div class="foot">Ankieta dot. szkolenia „Zarządzanie firmą wspierane przez AI"</div>
+</div>
+
+<script>
+  // If URL contains #thanks, show thanks section
+  if (window.location.hash === '#thanks') {
+    document.getElementById('form-card').style.display = 'none';
+    document.getElementById('thanks').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
